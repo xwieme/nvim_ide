@@ -1,34 +1,26 @@
 return {
-    'nvim-telescope/telescope.nvim', 
-    tag = '0.1.5', 
-    dependencies = { 
-        'nvim-lua/plenary.nvim',
-        {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
-        'nvim-tree/nvim-web-devicons',
-    },
-    config = function() 
+  "nvim-telescope/telescope.nvim",
+  branch = "0.1.x",
+  dependencies = { "nvim-lua/plenary.nvim" },
+  config = function()
+    local telescope = require("telescope")
+    local builtin = require("telescope.builtin")
+    local actions = require("telescope.actions")
 
-        local telescope = require('telescope')
-        local actions = require('telescope.actions')
+    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+    vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+    vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 
-        telescope.setup({
-            defaults = {
-                mappings = {
-                    i = {
-                        ["<C-k>"] = actions.move_selection_previous,
-                        ["<C-j>"] = actions.move_selection_next,
-                        ["<C-k>"] = actions.move_selection_previous,
-                    }
-                }
-            }
-        })
-
-        telescope.load_extension("fzf");
-
-
-        vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', {desc = "Fuzzy find files in cwd"})
-        vim.keymap.set('n', '<leader>fs', '<cmd>Telescope live_grep<cr>', {desc = "Find string in cwd"})
-        vim.keymap.set('n', '<leader>fc', '<cmd>Telescope grep_string<cr>', {desc = "Find string under cursor in cwd"})
-
-    end
+    telescope.setup({
+      defaults = {
+        mappings = {
+          i = {
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-k>"] = actions.move_selection_previous,
+          },
+        },
+      },
+    })
+  end,
 }
